@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.function.DoubleBinaryOperator;
 
 @SpringBootApplication
 @RestController
@@ -25,15 +26,64 @@ public class TomatinaApplication {
 
     @PostMapping("/**")
     public String index(@RequestBody ArenaUpdate arenaUpdate) {
-        System.out.println(arenaUpdate);
-        arenaUpdate.arena.state.entrySet().forEach(state -> {
-            String user = state.getKey();
-            PlayerState playerState = state.getValue();
-            System.out.println(user + " : " + playerState);
-        });
+        String href = arenaUpdate._links.self.href;
+        System.out.println(href);
+        Map<String, PlayerState> states = arenaUpdate.arena.state;
+        int myX = states.get(href).x;
+        int myY = states.get(href).y;
+        String myD = states.get(href).direction;
+
         String[] commands = new String[]{"F", "R", "L", "T"};
         int i = new Random().nextInt(4);
-        return commands[i];
+        String action =  commands[i];
+
+        double minDistance = 10000;
+        String minUser = "";
+        for (Map.Entry<String, PlayerState> playerState : states.entrySet()) {
+            if (playerState.getKey().equals(href)) {
+                continue;
+            }
+            //System.out.println(arenaUpdate.arena.dims + "==>" + playerState.getKey() + " : " + playerState);
+            int x = playerState.getValue().x;
+            int y = playerState.getValue().y;
+
+            double distance = Math.pow(Math.abs(myX - x), 2) + Math.pow(Math.abs(myY - y), 2);
+            if (distance < minDistance) {
+                minDistance = distance;
+                minUser = playerState.getKey();
+            }
+        }
+
+        System.out.println("minPlayer===== " + minUser + " : " + minDistance);
+        PlayerState minPlayerState = states.get(minUser);
+        int x = minPlayerState.x;
+        int y = minPlayerState.y;
+
+        if ((myX - x == -1 && myY == y && "E".equals(myD))
+                || (myX - x == 1 && myY == y && "W".equals(myD))
+                || (myY - y == -1 && myX == x && "N".equals(myD))
+                || (myY - y == 1 && myX == x && "S".equals(myD))
+        ) {
+            return "T";
+        }
+
+        if ((myX - x < -1 && "E".equals(myD))
+                || (myX - x > 1 && "W".equals(myD))
+                || (myY - y < -1 && "N".equals(myD))
+                || (myY - y > 1 && "S".equals(myD))
+        ) {
+            return "F";
+        }
+
+        if (myX - x < -1) {
+            action = "R";
+        } else if (myX - x > 1) {
+            action = "L";
+        } else if (myY - y < -1) {
+            action = "F";
+        }
+
+        return action;
     }
 
     @Data
