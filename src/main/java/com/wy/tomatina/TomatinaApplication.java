@@ -80,11 +80,11 @@ public class TomatinaApplication {
             return logAction("F");
         }
 
-        if (myX - x < -1) {
+        if (myX - x <= -1) {
             action = "R";
-        } else if (myX - x > 1) {
+        } else if (myX - x >= 1) {
             action = "L";
-        } else if (myY - y < -1) {
+        } else if (myY - y <= -1) {
             action = "F";
         }
 
