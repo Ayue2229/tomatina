@@ -26,7 +26,7 @@ public class TomatinaApplication {
     @PostMapping("/**")
     public String index(@RequestBody ArenaUpdate arenaUpdate) {
         String href = arenaUpdate._links.self.href;
-        PlayerState myState = new PlayerState();
+        PlayerState myState;
         PlayerState minState = new PlayerState();
         Map<String, PlayerState> states = arenaUpdate.arena.state;
         int myX = states.get(href).x;
