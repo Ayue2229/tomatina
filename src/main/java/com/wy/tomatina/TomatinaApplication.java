@@ -44,7 +44,7 @@ public class TomatinaApplication {
                 System.out.println("self======= " + href + " : " + myState);
                 myState = playerState.getValue();
                 if (myState.wasHit) {
-                    return action;
+                    return logAction(action);;
                 }
                 continue;
             }
@@ -69,7 +69,7 @@ public class TomatinaApplication {
                 || (myY - y == -1 && myX == x && "N".equals(myD))
                 || (myY - y == 1 && myX == x && "S".equals(myD))
         ) {
-            return "T";
+            return logAction("T");
         }
 
         if ((myX - x < -1 && "E".equals(myD))
@@ -77,7 +77,7 @@ public class TomatinaApplication {
                 || (myY - y < -1 && "N".equals(myD))
                 || (myY - y > 1 && "S".equals(myD))
         ) {
-            return "F";
+            return logAction("F");
         }
 
         if (myX - x < -1) {
@@ -88,7 +88,11 @@ public class TomatinaApplication {
             action = "F";
         }
 
-        System.out.println("action==" + action);
+        return logAction(action);
+    }
+
+    private String logAction(String action) {
+        System.out.println(action);
         return action;
     }
 
