@@ -69,10 +69,10 @@ public class TomatinaApplication {
             return logAction("T");
         }
 
-        if ((myX - x < -1 && "E".equals(myD))
-                || (myX - x > 1 && "W".equals(myD))
-                || (myY - y < -1 && "N".equals(myD))
-                || (myY - y > 1 && "S".equals(myD))
+        if ((myX - x <= -1 && "E".equals(myD))
+                || (myX - x >= 1 && "W".equals(myD))
+                || (myY - y <= -1 && "N".equals(myD))
+                || (myY - y >= 1 && "S".equals(myD))
         ) {
             return logAction("F");
         }
