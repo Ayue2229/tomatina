@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
-import java.util.function.DoubleBinaryOperator;
 
 @SpringBootApplication
 @RestController
@@ -27,7 +26,8 @@ public class TomatinaApplication {
     @PostMapping("/**")
     public String index(@RequestBody ArenaUpdate arenaUpdate) {
         String href = arenaUpdate._links.self.href;
-        System.out.println(href);
+        PlayerState myState = new PlayerState();
+        PlayerState minState = new PlayerState();
         Map<String, PlayerState> states = arenaUpdate.arena.state;
         int myX = states.get(href).x;
         int myY = states.get(href).y;
@@ -41,6 +41,10 @@ public class TomatinaApplication {
         String minUser = "";
         for (Map.Entry<String, PlayerState> playerState : states.entrySet()) {
             if (playerState.getKey().equals(href)) {
+                myState = playerState.getValue();
+                if (myState.wasHit) {
+                    return "F";
+                }
                 continue;
             }
             //System.out.println(arenaUpdate.arena.dims + "==>" + playerState.getKey() + " : " + playerState);
@@ -51,10 +55,11 @@ public class TomatinaApplication {
             if (distance < minDistance) {
                 minDistance = distance;
                 minUser = playerState.getKey();
+                minState = playerState.getValue();
             }
         }
-
-        System.out.println("minPlayer===== " + minUser + " : " + minDistance);
+        System.out.println("self======= " + href + " : " + myState);
+        System.out.println("minPlayer== " + minUser + " : " + minState + " distance=" + minDistance);
         PlayerState minPlayerState = states.get(minUser);
         int x = minPlayerState.x;
         int y = minPlayerState.y;
@@ -115,6 +120,11 @@ public class TomatinaApplication {
         public String direction;
         public Boolean wasHit;
         public Integer score;
+
+        @Override
+        public String toString() {
+            return String.format("{ x: %s, y: %s, direction: %s, wasHist: %s, score: %s }", x, y, direction, wasHit, score);
+        }
     }
 
 
