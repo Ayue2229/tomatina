@@ -41,9 +41,10 @@ public class TomatinaApplication {
         String minUser = "";
         for (Map.Entry<String, PlayerState> playerState : states.entrySet()) {
             if (playerState.getKey().equals(href)) {
+                System.out.println("self======= " + href + " : " + myState);
                 myState = playerState.getValue();
                 if (myState.wasHit) {
-                    return "F";
+                    return action;
                 }
                 continue;
             }
@@ -58,7 +59,6 @@ public class TomatinaApplication {
                 minState = playerState.getValue();
             }
         }
-        System.out.println("self======= " + href + " : " + myState);
         System.out.println("minPlayer== " + minUser + " : " + minState + " distance=" + minDistance);
         PlayerState minPlayerState = states.get(minUser);
         int x = minPlayerState.x;
@@ -88,6 +88,7 @@ public class TomatinaApplication {
             action = "F";
         }
 
+        System.out.println("action==" + action);
         return action;
     }
 
