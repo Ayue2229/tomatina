@@ -50,7 +50,7 @@ public class TomatinaApplication {
             int y = playerState.getValue().y;
 
             double distance = Math.pow(Math.abs(myX - x), 2) + Math.pow(Math.abs(myY - y), 2);
-            if (distance < minDistance) {
+            if (distance > 1 && distance < minDistance) {
                 minDistance = distance;
                 minUser = playerState.getKey();
                 minState = playerState.getValue();
