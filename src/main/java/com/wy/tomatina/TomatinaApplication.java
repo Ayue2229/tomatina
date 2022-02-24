@@ -43,9 +43,6 @@ public class TomatinaApplication {
             if (playerState.getKey().equals(href)) {
                 System.out.println("self======= " + href + " : " + myState);
                 myState = playerState.getValue();
-                if (myState.wasHit) {
-                    return logAction(action);;
-                }
                 continue;
             }
             //System.out.println(arenaUpdate.arena.dims + "==>" + playerState.getKey() + " : " + playerState);
