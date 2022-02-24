@@ -41,8 +41,8 @@ public class TomatinaApplication {
         String minUser = "";
         for (Map.Entry<String, PlayerState> playerState : states.entrySet()) {
             if (playerState.getKey().equals(href)) {
-                System.out.println("self======= " + href + " : " + myState);
                 myState = playerState.getValue();
+                System.out.println("self======= " + href + " : " + myState);
                 continue;
             }
             //System.out.println(arenaUpdate.arena.dims + "==>" + playerState.getKey() + " : " + playerState);
