@@ -42,7 +42,7 @@ public class TomatinaApplication {
         for (Map.Entry<String, PlayerState> playerState : states.entrySet()) {
             if (playerState.getKey().equals(href)) {
                 myState = playerState.getValue();
-                System.out.println("self========== " + href + " : " + myState);
+                System.out.println("self======== " + href + " : " + myState);
                 continue;
             }
             //System.out.println(arenaUpdate.arena.dims + "==>" + playerState.getKey() + " : " + playerState);
